@@ -1,47 +1,52 @@
-import Calculator.Calculator;
+import master.ConsoleInterface;
+import master.Requests;
 import Currencies.CurrencyCollection;
-import Currencies.CurrencyCollectionProvider;
-import DataProvidingAndDecoder.Decoder;
-import DataProvidingAndDecoder.RestDataProvider;
-import java.util.Map;
+import java.util.Scanner;
 
 
 public class Main
 {
     public static void main(String[] args) {
-        System.out.println("Start\n");
 
-        RestDataProvider restDataProvider = new RestDataProvider();
-        try {
-            byte[] data = restDataProvider.fetchData("https://api.nbp.pl/api/exchangerates/tables/a/");
-            System.out.println("Data fetched successfully");
+        Requests requests = new Requests();
+        CurrencyCollection currencyCollection = requests.loadCurrencies();
+        if (currencyCollection == null) {
+            System.out.println("Error loading currencies");
+            return;
+        }
 
-            Decoder decoder = new Decoder();
-            String decodedData = decoder.decode(data);
-            System.out.println("Decoded data: " + decodedData + "\n");
+        Scanner scanner = new Scanner(System.in);
 
-            CurrencyCollectionProvider currencyCollectionProvider = new CurrencyCollectionProvider();
+        ConsoleInterface conUI = new ConsoleInterface();
+        while(conUI.GetChoice() != 5) {
+            conUI.showMainMenu();
+            conUI.setChoice(scanner.nextLine());
+            switch(conUI.GetChoice()){
+                case 1:
+                    requests.printCurrencies(currencyCollection);
+                    break;
+                case 2:
+                    currencyCollection = requests.loadCurrencies();
+                    break;
+                case 3:
+                    conUI.ExchangeCurrenciesByCode(currencyCollection);
+                    break;
+                case 4:
+                    conUI.ExchangeCurrenciesByName(currencyCollection);
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
 
-            CurrencyCollection collection1 = currencyCollectionProvider.parse(decodedData);
+                default:
+                    System.out.println("Invalid choice");
+                    break;
 
-            System.out.println("Collection1: " + collection1.getCurrencyData() + "\n");
-
-            for (Map.Entry<String, Currencies.Currency> entry : collection1.getCurrencyData().entrySet()) {
-                System.out.println(entry.getKey() + "- imie: " + entry.getValue().GetName() + ", id: " +
-                        entry.getValue().GetId() + ", rate: " + String.format("%.6f", entry.getValue().GetRate()));
             }
-            System.out.println("\n");
-
-            Calculator calc = Calculator.getInstance();
-            System.out.println("\n100.1 USD to euro = " + calc.exchange(collection1.get("dolar amerykański"), collection1.get("euro"), 100.1));
-            System.out.println("data aktualizacji tabeli: " + collection1.getDate());
-        }
-        catch (Exception e) {
-            System.out.println("Error fetching data: " + e.getMessage());
         }
 
+        scanner.close();
 
 
-        System.out.println("End");
     }
 }

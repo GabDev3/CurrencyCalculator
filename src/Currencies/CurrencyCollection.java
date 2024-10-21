@@ -26,9 +26,26 @@ public class CurrencyCollection implements iCurrencyCollection {
     }
 
     @Override
-    public Currency get(String currencyName) {
+    public Currency getCurrencyByName(String currencyName) {
         return this.currencyData.get(currencyName);
     }
+
+    @Override
+    public Currency getCurrencyByCode(String currencyId) {
+        try {
+            for (Currency currency : currencyData.values()) {
+                if (currencyId.equals(currency.GetId())) {
+                    return currency;
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Currency not found: " + e.getMessage());
+            return null;
+        }
+        return null;
+    }
+
 
     @Override
     public Map<String, Currencies.Currency> getCurrencyData() {

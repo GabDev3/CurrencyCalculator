@@ -29,6 +29,9 @@ public class CurrencyCollectionProvider implements iCurrencyCollectionProvider {
             currencyMap.put(currencyName, currency);
         }
 
+        Currency zlotyPolski = new Currency("Złoty Polski", 1.0, "PLN");
+        currencyMap.put("Złoty Polski", zlotyPolski);
+
         return new CurrencyCollection(currencyMap, effectiveDate);
     }
 }

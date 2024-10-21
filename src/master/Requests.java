@@ -33,7 +33,7 @@ public class Requests {
             return calc.exchange(ccollection.getCurrencyByCode(inId), ccollection.getCurrencyByCode(outId), sum);
         } catch (Exception e) {
             System.out.println("Error exchanging currency: " + e.getMessage());
-            return 0;
+            return -1;
         }
     }
 
@@ -43,7 +43,7 @@ public class Requests {
             return calc.exchange(ccollection.getCurrencyByName(inName), ccollection.getCurrencyByName(outName), sum);
         } catch (Exception e) {
             System.out.println("Error exchanging currency: " + e.getMessage());
-            return 0;
+            return -1;
         }
     }
 

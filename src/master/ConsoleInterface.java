@@ -52,7 +52,13 @@ public class ConsoleInterface {
             System.out.println("Enter the code of the currency to exchange to: ");
             String outId = scanner.nextLine();
 
-            System.out.println("Wymiana: " + sum + " " + inId + " = " + String.format("%.2f", requests.exchangeCurrencyByCode(collection, inId, outId, sum)) + " " + outId);
+            double exchanged = requests.exchangeCurrencyByCode(collection, inId, outId, sum);
+            if(exchanged == -1) {
+                return;
+            }
+            else {
+                System.out.println("Wymiana: " + sum + " " + inId + " = " + String.format("%.2f", exchanged) + " " + outId);
+            }
         }
         catch (Exception e) {
             System.out.println("Error exchanging currencies: " + e.getMessage());
@@ -76,7 +82,13 @@ public class ConsoleInterface {
             System.out.println("Enter the name of the currency to exchange to: ");
             String outName = scanner.nextLine();
 
-            System.out.println("Wymiana: " + sum + " " + inName + " = " + String.format("%.2f", requests.exchangeCurrencyByName(collection, inName, outName, sum)) + " " + outName);
+            double exchanged = requests.exchangeCurrencyByName(collection, inName, outName, sum);
+            if(exchanged == -1) {
+                return;
+            }
+            else {
+                System.out.println("Wymiana: " + sum + " " + inName + " = " + String.format("%.2f", exchanged) + " " + outName);
+            }
         }
         catch (Exception e) {
             System.out.println("Error exchanging currencies: " + e.getMessage());

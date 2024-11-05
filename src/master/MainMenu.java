@@ -10,12 +10,10 @@ public enum MainMenu {
 
     private final String option;
 
-    // Enum constructor
     MainMenu(String option) {
         this.option = option;
     }
 
-    // Method to get the string value of the enum
     public String getOption() {
         return option;
     }

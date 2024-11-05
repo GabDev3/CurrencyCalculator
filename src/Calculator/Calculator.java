@@ -3,10 +3,8 @@ package Calculator;
 public class Calculator implements iCalculator {
     private static Calculator instance;
 
-    // Private constructor to prevent instantiation
     private Calculator() {}
 
-    // Public method to provide access to the singleton instance
     public static Calculator getInstance() {
         if (instance == null) {
             instance = new Calculator();
